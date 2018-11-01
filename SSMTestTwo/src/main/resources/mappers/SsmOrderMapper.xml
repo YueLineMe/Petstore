@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.SsmOrderMapper">
+  <resultMap id="BaseResultMap" type="com.entity.SsmOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="petId" jdbcType="INTEGER" property="petId" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="shipDate" jdbcType="TIMESTAMP" property="shipDate" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="complete" jdbcType="BIT" property="complete" />
+  </resultMap>
+
+  <resultMap id="status" type="java.util.Map">
+    <result column="status" javaType="CHAR" property="status"/>
+    <result column="count" javaType="INTEGER" property="count"/>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ssm_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.SsmOrder">
+    insert into ssm_order (id, petId, quantity, 
+      shipDate, status, complete
+      )
+    values (#{id,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
+      #{shipDate,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, #{complete,jdbcType=BIT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.entity.SsmOrder">
+    update ssm_order
+    set petId = #{petId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER},
+      shipDate = #{shipDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=CHAR},
+      complete = #{complete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, petId, quantity, shipDate, status, complete
+    from ssm_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, petId, quantity, shipDate, status, complete
+    from ssm_order
+  </select>
+  <select id="selectInventoriesByStatus" resultMap="status">
+   select `status`,count(*) `count`
+   from ssm_order
+   order by `status`
+  </select>
+</mapper>

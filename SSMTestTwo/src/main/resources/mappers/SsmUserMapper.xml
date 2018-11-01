@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.SsmUserMapper">
+  <resultMap id="BaseResultMap" type="com.entity.SsmUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="firstName" jdbcType="VARCHAR" property="firstName" />
+    <result column="lastName" jdbcType="VARCHAR" property="lastName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="userStatus" jdbcType="INTEGER" property="userStatus" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ssm_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.SsmUser">
+    insert into ssm_user (id, userName, firstName, 
+      lastName, email, password, 
+      phone, userStatus)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, 
+      #{lastName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{userStatus,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.entity.SsmUser">
+    update ssm_user
+    set userName = #{userName,jdbcType=VARCHAR},
+      firstName = #{firstName,jdbcType=VARCHAR},
+      lastName = #{lastName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      userStatus = #{userStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, userName, firstName, lastName, email, password, phone, userStatus
+    from ssm_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, userName, firstName, lastName, email, password, phone, userStatus
+    from ssm_user
+  </select>
+  <update id="updateStatus" parameterType="com.entity.SsmUser">
+    update ssm_user
+    set userStatus=#{userStatus}
+    where id=#{id}
+  </update>
+  <select id="selectLogin" parameterType="com.entity.SsmUser" resultType="int">
+    select id
+    from ssm_user
+    where userName=#{userName} and `password`=#{password}
+  </select>
+  <select id="selectByUserName" parameterType="String" resultType="com.entity.SsmUser">
+    select *
+    from ssm_user
+    where username=#{username}
+  </select>
+</mapper>
